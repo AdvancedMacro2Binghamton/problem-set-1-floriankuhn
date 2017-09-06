@@ -26,7 +26,11 @@ vl_income = var(log(income));
 vl_wealth = var(log(wealth));
 
 % Gini index
-%[g,l,a] = gini(
+% weight_raw = SCF_data(:,{'WGT'});
+% weight = table2array(weight_raw)/inflation_07_13;
+% [~,~,~] = gini(weight, earnings, true);
+% [~,~,~] = gini(weight, income, true);
+% [~,~,~] = gini(weight, wealth, true);
 
 % Top 1%/lowest 40%
 ratio_hl_earnings = quantile(earnings,0.99)/quantile(earnings,0.4); 
