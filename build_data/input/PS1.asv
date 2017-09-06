@@ -1,0 +1,34 @@
+cd 'E:\Binghamton University\2017 Fall\As a Student\ECON 634 Advanced Macroeconomics\Homework\problem-set-1-floriankuhn\build_data\input'
+SCF_data = readtable('SCFP2007.xlsx');
+inflation_07_13 = 0.124;
+business_fraction = 0.863;
+wageinc_raw = SCF_data(:,{'WAGEINC'});
+wageinc = table2array(wageinc_raw)/inflation_07_13;
+business_raw = SCF_data(:,{'BUSSEFARMINC'});
+business = table2array(business_raw)/inflation_07_13;
+earnings = wageinc + business_fraction * business;
+earnings_quantile = quantile(earnings,[0 0.01 0.05 0.10 0.20 0.40 0.60 0.80 0.90 0.95 0.99 1]);
+income_raw = SCF_data(:,{'INCOME'});
+income = table2array(income_raw)/inflation_07_13;
+income_quantile = quantile(income,[0 0.01 0.05 0.10 0.20 0.40 0.60 0.80 0.90 0.95 0.99 1]);
+wealth_raw = SCF_data(:,{'NETWORTH'});
+wealth = table2array(wealth_raw)/inflation_07_13;
+wealth_quantile = quantile(wealth,[0 0.01 0.05 0.10 0.20 0.40 0.60 0.80 0.90 0.95 0.99 1]);
+
+% Coefficients of variation
+cv_earnings = std(earnings)/mean(earnings);
+cv_income = std(income)/mean(income);
+cv_wealth = std(wealth)/mean(wealth);
+
+% Variance of the logs
+vl_earnings = var(log(earnings));
+vl_income = var(log(income));
+vl_wealth = var(log(wealth));
+
+% Gini index
+[g,l,a] = gini(
+
+% Top 1%/lowest 40%
+
+% Location of mean(&
+
