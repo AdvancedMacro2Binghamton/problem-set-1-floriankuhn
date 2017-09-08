@@ -1,0 +1,40 @@
+I=1.124;
+Wealth=NETWORTH/I;
+Earnings=(WAGEINC+0.863*BUSSEFARMINC)/I;
+Income=(WAGEINC+BUSSEFARMINC+INTDIVINC+KGINC+SSRETINC+TRANSFOTHINC)/I;
+data=[Earnings,Income,Wealth];
+y=[0 1 5 10 20 40 60 80 90 95 99 100];
+Quantiles=zeros(3,12); % Quantiles
+for i=1:3
+Quantiles(i,:)=wprctile(data(:,i),y,WGT);
+end
+COV=zeros(1,3); % COefficient of variation
+for i=1:3
+COV(i)=sqrt(var(data(:,i),WGT))/(data(:,i)'*WGT/sum(WGT));
+end
+T=[WGT,data];
+l1=log(T(T(:,2)>0,:));
+l2=log(T(T(:,3)>0,:));
+l3=log(T(T(:,4)>0,:));
+v1=var(l1,exp(l1(:,1)));
+v2=var(l2,exp(l2(:,1)));
+v3=var(l3,exp(l3(:,1)));
+v=[v1(2) v2(3) v3(4)]; % Variance of logs
+e=T(T(:,2)>=0,:);
+in=T(T(:,3)>=0,:);
+w=T(T(:,4)>=0,:);
+g1=gini(e(:,1),e(:,2),true);
+g2=gini(in(:,1),in(:,3),true);
+g3=gini(w(:,1),w(:,4),true);
+g=[g1 g2 g3]; %Gini Index
+r=zeros(1,3); %Top 1%/Lowest 40%
+for i=1:3
+   a1=T(T(:,i+1)>=Quantiles(i,11),:);
+   a40=T(T(:,i+1)<=Quantiles(i,6),:);
+   r(i)=(a1(:,1)'*a1(:,i+1)/sum(a1(:,1)))/(a40(:,1)'*a40(:,i+1)/sum(a40(:,1)))
+end
+location=zeros(1,3); % Location of means
+for i=1:3
+    location(i)=sum(T(T(:,i+1)<=(T(:,i+1)'*WGT/sum(WGT)),1))/sum(T(:,1));
+end
+mm=(data'*WGT/sum(WGT))'./wprctile(data,50,WGT); % Mean/median
