@@ -1,5 +1,6 @@
 cd 'E:\Binghamton University\2017 Fall\As a Student\ECON 634 Advanced Macroeconomics\Homework\problem-set-1-floriankuhn\build_data\input'
 SCF_data = readtable('SCFP2007.xlsx');
+% Quantiles of the 2007 earnings, income and wealth distributions
 inflation_07_13 = 0.124;
 business_fraction = 0.863;
 wageinc_raw = SCF_data(:,{'WAGEINC'});
@@ -26,6 +27,7 @@ vl_income = var(log(income));
 vl_wealth = var(log(wealth));
 
 % Gini index
+% £¿
 % weight_raw = SCF_data(:,{'WGT'});
 % weight = table2array(weight_raw)/inflation_07_13;
 % [~,~,~] = gini(weight, earnings, true);
@@ -38,7 +40,7 @@ ratio_hl_income = quantile(income,0.99)/quantile(income,0.4);
 ratio_hl_wealth = quantile(wealth,0.99)/quantile(wealth,0.4); 
 
 % Location of mean
-
+% £¿
 
 % Mean/median
 ratio_mm_earnings = mean(earnings)/median(earnings);
